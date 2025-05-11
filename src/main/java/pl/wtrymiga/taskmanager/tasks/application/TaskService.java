@@ -3,7 +3,6 @@ package pl.wtrymiga.taskmanager.tasks.application;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import pl.wtrymiga.taskmanager.audit.domain.TaskChange;
 import pl.wtrymiga.taskmanager.audit.domain.TaskChangeType;
@@ -66,6 +65,10 @@ public class TaskService implements TaskCommandUseCase {
 
 	@Override
 	public void delete(TaskId id, String actorId) {
+		Task task = taskRepository.findById(id).orElseThrow();
+		if (task.getStatus() != TaskStatus.PENDING)
+			throw new IllegalStateException("not pending");
+
 		taskRepository.deleteRecursively(id);
 		changeRepository.save(new TaskChange(id, TaskChangeType.DELETED, actorId, Instant.now(clock), null));
 	}
@@ -73,10 +76,11 @@ public class TaskService implements TaskCommandUseCase {
 	@Override
 	public long expirePending() {
 		Instant now = Instant.now(clock);
-		Stream<Task> expired = taskRepository.streamPendingDueBefore(now).peek(q -> q.expireIfDue(now))
-				.map(taskRepository::save).filter(q -> q.getStatus() == TaskStatus.EXPIRED);
+		var expired = taskRepository.streamPendingDueBefore(now).peek(q -> q.expireIfDue(now)).map(taskRepository::save)
+				.filter(q -> q.getStatus() == TaskStatus.EXPIRED).toList();
 		expired.forEach(
 				q -> changeRepository.save(new TaskChange(q.getId(), TaskChangeType.EXPIRED, "system", now, null)));
-		return expired.count();
+		return expired.size();
 	}
+
 }

@@ -40,8 +40,8 @@ public class TaskJpaAdapter implements TaskRepository {
 
 	@Override
 	public void deleteRecursively(TaskId id) {
+		repo.findAllByParentId(id.value()).map(TaskEntity::getId).map(TaskId::of).forEach(this::deleteRecursively);
 		repo.deleteById(id.value());
-		repo.deleteByParentId(id.value());
 	}
 
 	@Override

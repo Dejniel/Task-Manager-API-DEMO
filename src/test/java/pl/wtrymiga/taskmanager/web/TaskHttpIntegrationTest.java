@@ -22,8 +22,8 @@ public class TaskHttpIntegrationTest {
 				.bodyValue(new TaskCreateRequest("t", "d", TaskVisibility.PUBLIC, null)).exchange().expectStatus()
 				.isOk().expectBody(TaskResponse.class).returnResult().getResponseBody().id();
 		client.put().uri("/tasks/{id}/complete", id).header("X-User-Id", "u").exchange().expectStatus().isOk();
-		client.get().uri("/tasks/{id}/changes", id).exchange().expectStatus().isOk();
-		client.get().uri("/tasks?limit=5").exchange().expectStatus().isOk();
-		client.get().uri("/tasks/export?format=csv").exchange().expectStatus().isOk();
+		client.get().uri("/tasks/{id}/changes", id).header("X-User-Id", "u").exchange().expectStatus().isOk();
+		client.get().uri("/tasks?limit=5").header("X-User-Id", "u").exchange().expectStatus().isOk();
+		client.get().uri("/tasks/export?format=csv").header("X-User-Id", "u").exchange().expectStatus().isOk();
 	}
 }

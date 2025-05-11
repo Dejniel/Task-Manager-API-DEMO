@@ -50,12 +50,6 @@ class TasksInfrastructureConfiguration {
 	}
 
 	@Bean
-	org.springframework.scheduling.annotation.SchedulingConfigurer schedule(TaskCommandUseCase cmd) {
-		return taskRegistrar -> {
-		};
-	}
-
-	@Bean
 	TaskExpirationJob expirationJob(TaskCommandUseCase cmd) {
 		return new TaskExpirationJob(cmd);
 	}

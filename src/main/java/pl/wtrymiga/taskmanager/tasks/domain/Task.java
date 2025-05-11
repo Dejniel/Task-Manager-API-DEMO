@@ -66,7 +66,6 @@ public final class Task {
 		}
 		modifiedAt = now;
 		modifiedBy = actorId;
-		++version;
 	}
 
 	public void complete(String actorId, Instant now, Supplier<Boolean> allChildrenCompleted) {
@@ -80,7 +79,6 @@ public final class Task {
 		status = TaskStatus.COMPLETED;
 		modifiedAt = now;
 		modifiedBy = actorId;
-		++version;
 	}
 
 	public void expireIfDue(Instant now) {

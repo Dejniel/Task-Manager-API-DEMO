@@ -1,6 +1,6 @@
 package pl.wtrymiga.taskmanager.web.audit;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,7 @@ import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
 
 @RestController
 @RequestMapping("/tasks/{taskId}/changes")
-public class TaskChangeController {
+class TaskChangeController {
 	private final TaskChangeRepository repo;
 
 	TaskChangeController(TaskChangeRepository repo) {
@@ -21,7 +21,7 @@ public class TaskChangeController {
 	}
 
 	@GetMapping
-	Stream<TaskChange> list(@PathVariable long taskId) {
+	List<TaskChange> list(@PathVariable("taskId") long taskId) {
 		return repo.findByTaskIdOrderByOccurredAtAsc(TaskId.of(taskId));
 	}
 }

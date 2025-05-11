@@ -1,7 +1,7 @@
 package pl.wtrymiga.taskmanager.audit.infra.jpa;
 
 import java.time.Instant;
-import java.util.stream.Stream;
+import java.util.List;
 
 import pl.wtrymiga.taskmanager.audit.domain.TaskChange;
 import pl.wtrymiga.taskmanager.audit.domain.application.port.out.TaskChangeRepository;
@@ -20,8 +20,8 @@ public class TaskChangeJpaAdapter implements TaskChangeRepository {
 	}
 
 	@Override
-	public Stream<TaskChange> findByTaskIdOrderByOccurredAtAsc(TaskId taskId) {
-		return repo.findByTaskIdOrderByOccurredAtAsc(taskId.value()).map(this::toDomain);
+	public List<TaskChange> findByTaskIdOrderByOccurredAtAsc(TaskId taskId) {
+		return repo.findByTaskIdOrderByOccurredAtAsc(taskId.value()).stream().map(this::toDomain).toList();
 	}
 
 	private TaskChange toDomain(TaskChangeEntity e) {

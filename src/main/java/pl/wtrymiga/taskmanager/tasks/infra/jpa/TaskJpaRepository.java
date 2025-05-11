@@ -16,10 +16,6 @@ public interface TaskJpaRepository extends JpaRepository<TaskEntity, Long> {
 
 	boolean existsByParentIdAndStatusNot(Long parentId, TaskStatus status);
 
-	Stream<TaskEntity> streamByStatusAndDueDateBefore(TaskStatus status, LocalDate before);
-
-	void deleteByParentId(Long parentId);
-
 	@Query("""
 			select t from TaskEntity t
 			where (:status is null or t.status=:status)
@@ -28,5 +24,11 @@ public interface TaskJpaRepository extends JpaRepository<TaskEntity, Long> {
 			order by t.createdAt desc
 			""")
 	Stream<TaskEntity> search(TaskStatus status, TaskVisibility visibility, Instant after, Pageable pageable);
+
+	Stream<TaskEntity> streamByStatusAndDueDateBefore(TaskStatus status, LocalDate before);
+
+	Stream<TaskEntity> findAllByParentId(Long parentId);
+
+	void deleteByParentId(Long parentId);
 
 }

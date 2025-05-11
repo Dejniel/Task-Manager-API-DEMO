@@ -20,7 +20,7 @@ public class TaskDomainTest {
 	void createSetsDefaults() {
 		Task q = Task.create("t", "d", TaskVisibility.PUBLIC, null, "u", clock, generator, x -> true, x -> false);
 		assertThat(q.getStatus()).isEqualTo(TaskStatus.PENDING);
-		assertThat(q.getDueDate()).isEqualTo(LocalDate.of(2025, 5, 23)); // 10 dni roboczych
+		assertThat(q.getDueDate()).isEqualTo(LocalDate.of(2025, 5, 23));
 		assertThat(q.getTaskCode()).isEqualTo("TASK-2025-1");
 	}
 
