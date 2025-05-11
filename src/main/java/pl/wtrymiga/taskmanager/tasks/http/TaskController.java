@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
 import pl.wtrymiga.taskmanager.tasks.domain.TaskService;
 import pl.wtrymiga.taskmanager.tasks.http.dto.TaskCreateRequest;
 import pl.wtrymiga.taskmanager.tasks.http.dto.TaskPatchRequest;
@@ -26,21 +27,24 @@ class TaskController {
 
 	@PostMapping
 	TaskResponse create(@RequestBody TaskCreateRequest request, @RequestHeader("X-User-Id") String actorId) {
-		return null;
+		return TaskMapper.toResponse(taskService.create(request.title(), request.description(), request.visibility(),
+				request.parentId() == null ? null : TaskId.of(request.parentId()), actorId));
 	}
 
 	@PatchMapping("/{id}")
 	TaskResponse patch(@PathVariable long id, @RequestBody TaskPatchRequest request,
 			@RequestHeader("X-User-Id") String actorId) {
-		return null;
+		return TaskMapper.toResponse(taskService.patch(TaskId.of(id), request.title(), request.description(),
+				request.parentId() == null ? null : TaskId.of(request.parentId()), actorId));
 	}
 
 	@PutMapping("/{id}/complete")
 	TaskResponse complete(@PathVariable long id, @RequestHeader("X-User-Id") String actorId) {
-		return null;
+		return TaskMapper.toResponse(taskService.complete(TaskId.of(id), actorId));
 	}
 
 	@DeleteMapping("/{id}")
 	void delete(@PathVariable long id, @RequestHeader("X-User-Id") String actorId) {
+		taskService.delete(TaskId.of(id), actorId);
 	}
 }
