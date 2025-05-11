@@ -9,6 +9,7 @@ import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskRepository;
 import pl.wtrymiga.taskmanager.tasks.domain.Task;
 import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
 import pl.wtrymiga.taskmanager.tasks.domain.TaskStatus;
+import pl.wtrymiga.taskmanager.tasks.domain.TaskVisibility;
 
 public class TaskJpaAdapter implements TaskRepository {
 	private final TaskJpaRepository repo;
@@ -49,6 +50,12 @@ public class TaskJpaAdapter implements TaskRepository {
 		return repo.streamByStatusAndDueDateBefore(TaskStatus.PENDING, date).map(this::toDomain);
 	}
 
+	@Override
+	public Stream<Task> streamFiltered(TaskStatus status, TaskVisibility visibility, Instant after, int limit) {
+		return repo.search(status, visibility, after, org.springframework.data.domain.PageRequest.of(0, limit))
+				.map(this::toDomain);
+	}
+
 	private Task toDomain(TaskEntity e) {
 		return new Task(e.getId() == null ? null : TaskId.of(e.getId()), e.getTitle(), e.getDescription(),
 				e.getStatus(), e.getVisibility(), e.getCreatedAt(), e.getCreatedBy(), e.getModifiedAt(),
@@ -62,4 +69,5 @@ public class TaskJpaAdapter implements TaskRepository {
 				d.getModifiedBy(), d.getDueDate(), d.getParentId() == null ? null : d.getParentId().value(),
 				d.getTaskCode(), d.getVersion());
 	}
+
 }
