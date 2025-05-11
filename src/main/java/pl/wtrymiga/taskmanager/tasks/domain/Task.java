@@ -11,12 +11,11 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor // (access = AccessLevel.PRIVATE)
 public final class Task {
 	private TaskId id;
 	private String title;
