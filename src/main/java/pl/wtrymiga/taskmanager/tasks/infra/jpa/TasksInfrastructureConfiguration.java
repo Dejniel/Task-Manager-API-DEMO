@@ -5,14 +5,14 @@ import java.time.Clock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import pl.wtrymiga.taskmanager.tasks.domain.TaskCodeGenerator;
-import pl.wtrymiga.taskmanager.tasks.domain.TaskCodeGeneratorInMemorySequence;
-import pl.wtrymiga.taskmanager.tasks.domain.TaskHierarchyService;
-import pl.wtrymiga.taskmanager.tasks.domain.TaskRepository;
-import pl.wtrymiga.taskmanager.tasks.domain.TaskService;
+import pl.wtrymiga.taskmanager.tasks.application.TaskService;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskCodeGenerator;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskHierarchyService;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskRepository;
+import pl.wtrymiga.taskmanager.tasks.infra.codegen.TaskCodeGeneratorInMemorySequence;
 
 @Configuration
-class TasksJpaConfiguration {
+class TasksInfrastructureConfiguration {
 	@Bean
 	Clock clock() {
 		return Clock.systemDefaultZone();
@@ -30,7 +30,7 @@ class TasksJpaConfiguration {
 
 	@Bean
 	TaskHierarchyService taskHierarchyService(TaskJpaRepository repo) {
-		return new TaskHierarchyJpaService(repo);
+		return new TaskHierarchyAdapterJpa(repo);
 	}
 
 	@Bean

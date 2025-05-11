@@ -1,4 +1,4 @@
-package pl.wtrymiga.taskmanager.tasks.http.dto;
+package pl.wtrymiga.taskmanager.web.tasks.dto;
 
 import pl.wtrymiga.taskmanager.tasks.domain.TaskVisibility;
 

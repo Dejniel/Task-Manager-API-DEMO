@@ -1,8 +1,15 @@
-package pl.wtrymiga.taskmanager.tasks.domain;
+package pl.wtrymiga.taskmanager.tasks.application;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.util.function.Predicate;
+
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskCodeGenerator;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskHierarchyService;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskRepository;
+import pl.wtrymiga.taskmanager.tasks.domain.Task;
+import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
+import pl.wtrymiga.taskmanager.tasks.domain.TaskVisibility;
 
 public class TaskService {
 	private final TaskRepository taskRepository;

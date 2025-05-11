@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskCodeGenerator;
 
 @Getter
 @AllArgsConstructor // (access = AccessLevel.PRIVATE)

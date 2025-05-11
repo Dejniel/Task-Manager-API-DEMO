@@ -2,13 +2,13 @@ package pl.wtrymiga.taskmanager.tasks.infra.jpa;
 
 import java.util.Optional;
 
-import pl.wtrymiga.taskmanager.tasks.domain.TaskHierarchyService;
+import pl.wtrymiga.taskmanager.tasks.application.port.out.TaskHierarchyService;
 import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
 
-public class TaskHierarchyJpaService implements TaskHierarchyService {
+public class TaskHierarchyAdapterJpa implements TaskHierarchyService {
 	private final TaskJpaRepository repo;
 
-	public TaskHierarchyJpaService(TaskJpaRepository repo) {
+	public TaskHierarchyAdapterJpa(TaskJpaRepository repo) {
 		this.repo = repo;
 	}
 

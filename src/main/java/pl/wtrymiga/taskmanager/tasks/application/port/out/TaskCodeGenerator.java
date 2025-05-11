@@ -1,4 +1,4 @@
-package pl.wtrymiga.taskmanager.tasks.domain;
+package pl.wtrymiga.taskmanager.tasks.application.port.out;
 
 public interface TaskCodeGenerator {
 	String nextCode(int year);

@@ -1,4 +1,4 @@
-package pl.wtrymiga.taskmanager.tasks.http;
+package pl.wtrymiga.taskmanager.web.tasks;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.wtrymiga.taskmanager.tasks.application.TaskService;
 import pl.wtrymiga.taskmanager.tasks.domain.TaskId;
-import pl.wtrymiga.taskmanager.tasks.domain.TaskService;
-import pl.wtrymiga.taskmanager.tasks.http.dto.TaskCreateRequest;
-import pl.wtrymiga.taskmanager.tasks.http.dto.TaskPatchRequest;
-import pl.wtrymiga.taskmanager.tasks.http.dto.TaskResponse;
+import pl.wtrymiga.taskmanager.web.tasks.dto.TaskCreateRequest;
+import pl.wtrymiga.taskmanager.web.tasks.dto.TaskPatchRequest;
+import pl.wtrymiga.taskmanager.web.tasks.dto.TaskResponse;
+import pl.wtrymiga.taskmanager.web.tasks.mapper.TaskMapper;
 
 @RestController
 @RequestMapping("/tasks")
