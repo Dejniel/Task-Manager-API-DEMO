@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.function.Predicate;
 
+import org.springframework.dao.OptimisticLockingFailureException;
+
 import pl.wtrymiga.taskmanager.audit.domain.TaskChange;
 import pl.wtrymiga.taskmanager.audit.domain.TaskChangeType;
 import pl.wtrymiga.taskmanager.audit.domain.application.port.out.TaskChangeRepository;
@@ -43,8 +45,10 @@ public class TaskService implements TaskCommandUseCase {
 	}
 
 	@Override
-	public Task patch(TaskId id, String title, String description, TaskId parentId, String actorId) {
+	public Task patch(TaskId id, String title, String description, TaskId parentId, String actorId, Long expectedVersion) {
 		Task task = taskRepository.findById(id).orElseThrow();
+		if (expectedVersion != null && task.getVersion() != expectedVersion)
+			throw new OptimisticLockingFailureException("conflict");
 		Instant now = Instant.now(clock);
 		task.patch(title, description, parentId, actorId, now, hierarchyService::parentExists,
 				q -> hierarchyService.createsCycle(id, q));
@@ -54,8 +58,10 @@ public class TaskService implements TaskCommandUseCase {
 	}
 
 	@Override
-	public Task complete(TaskId id, String actorId) {
+	public Task complete(TaskId id, String actorId, Long expectedVersion) {
 		Task task = taskRepository.findById(id).orElseThrow();
+		if (expectedVersion != null && task.getVersion() != expectedVersion)
+			throw new OptimisticLockingFailureException("conflict");
 		Instant now = Instant.now(clock);
 		task.complete(actorId, now, () -> taskRepository.areAllChildrenCompleted(id));
 		Task saved = taskRepository.save(task);

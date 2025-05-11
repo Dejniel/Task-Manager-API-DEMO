@@ -7,9 +7,9 @@ import pl.wtrymiga.taskmanager.tasks.domain.TaskVisibility;
 public interface TaskCommandUseCase {
 	Task create(String title, String description, TaskVisibility visibility, TaskId parentId, String actorId);
 
-	Task patch(TaskId id, String title, String description, TaskId parentId, String actorId);
+	Task patch(TaskId id, String title, String description, TaskId parentId, String actorId, Long expectedVersion);
 
-	Task complete(TaskId id, String actorId);
+	Task complete(TaskId id, String actorId, Long expectedVersion);
 
 	void delete(TaskId id, String actorId);
 

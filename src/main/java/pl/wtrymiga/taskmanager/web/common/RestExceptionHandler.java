@@ -1,5 +1,6 @@
 package pl.wtrymiga.taskmanager.web.common;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,5 +21,10 @@ public class RestExceptionHandler {
 	@ExceptionHandler(ResponseStatusException.class)
 	ResponseEntity<String> handleResponseStatus(ResponseStatusException ex) {
 		return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
+	}
+
+	@ExceptionHandler(OptimisticLockingFailureException.class)
+	ResponseEntity<String> handleOptimistic(OptimisticLockingFailureException ex) {
+		return ResponseEntity.status(409).body("conflict");
 	}
 }

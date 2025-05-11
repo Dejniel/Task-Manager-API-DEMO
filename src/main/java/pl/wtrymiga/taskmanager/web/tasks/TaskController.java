@@ -34,14 +34,16 @@ class TaskController {
 
 	@PatchMapping("/{id}")
 	TaskResponse patch(@PathVariable long id, @RequestBody TaskPatchRequest request,
-			@RequestHeader("X-User-Id") String actorId) {
+			@RequestHeader("X-User-Id") String actorId,
+			@RequestHeader(name = "If-Match", required = false) Long version) {
 		return TaskMapper.toResponse(taskService.patch(TaskId.of(id), request.title(), request.description(),
-				request.parentId() == null ? null : TaskId.of(request.parentId()), actorId));
+				request.parentId() == null ? null : TaskId.of(request.parentId()), actorId, version));
 	}
 
 	@PutMapping("/{id}/complete")
-	TaskResponse complete(@PathVariable long id, @RequestHeader("X-User-Id") String actorId) {
-		return TaskMapper.toResponse(taskService.complete(TaskId.of(id), actorId));
+	TaskResponse complete(@PathVariable long id, @RequestHeader("X-User-Id") String actorId,
+			@RequestHeader(name = "If-Match", required = false) Long version) {
+		return TaskMapper.toResponse(taskService.complete(TaskId.of(id), actorId, version));
 	}
 
 	@DeleteMapping("/{id}")

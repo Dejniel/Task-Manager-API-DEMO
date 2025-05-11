@@ -8,5 +8,5 @@ import pl.wtrymiga.taskmanager.tasks.domain.TaskVisibility;
 
 public record TaskResponse(Long id, String title, String description, TaskStatus status, TaskVisibility visibility,
 		Instant createdAt, String createdBy, Instant modifiedAt, String modifiedBy, LocalDate dueDate, Long parentId,
-		String taskCode) {
+		String taskCode, long version) {
 }
